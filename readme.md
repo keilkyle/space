@@ -8,3 +8,6 @@ The idea is to teach people how far away various objects are in space:
 
 The speed of light is really fast. But space is really big! So communicating with these places still takes time.
 
+c = 299792458 m/s
+geo = 35786 km (0.238738494 lightseconds there and back)
+
