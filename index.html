@@ -2,23 +2,46 @@
 <html>
     <head>
         <title>Talking to Space</title>
+        <link rel="stylesheet" href="index.css">
         <script defer type="text/javascript" src="index.js"></script>
     </head>
     <body>
         <h1>Talking to Space</h1>
-        <div class="goal">
-            <h3 id="goalLabel">Time to geostationary orbit and back</h3>
-            <h4 id="goalTime">0.239 s</h4>
+        <div id="name" class="active">
+            <h2>First things first. What's your name?</h2>
+            <form id="nameForm">
+                <input type="text" id="nameInput" placeholder="Neil Armstrong" />
+                <input type="submit" value="Submit Name" />
+            </form>
         </div>
-        <br/>
-        <div class="timer">
-            <h2 id="clock">0.000 s</h2>
-            <button id="ping">Ping</button>
-            <p id="helperText"></p>
+        <div id="missionSelector" class="inactive" >
+            <h2 id="missionHeader">Welcome, name!</h2>
+            <form id="missionForm">
+                <select id="missionInput">
+                    <option value="iss">talk to an astronaut</option>
+                    <option value="geo">talk to a satellite</option>
+                    <option value="moon">talk to the Moon Lander</option>
+                    <option value="mars">talk to a Martian</option>
+                </select>
+                <input type="submit" value="Lock in my Mission!" />
+            </form>
         </div>
-        <div id="scoreboard">
-            <ul id="scores">
-            </ul>
+        <div id="game" class="inactive">
+            <h2 id="goalHeader">So, you want to talk to space?</h2>            
+            <p>You're in luck! You have a <strong>SPACE WALKIE TALKIE</strong>. But there's a problem. It only has few milliseconds of battery remaining: just barely enough to send one message out, and receive one signal in return.</p>
+            <p>Here's how it works. Click "send" to send your message, then "receive" when you think your signal will arrive back at Earth. If you're within +/- 25 milliseconds of the signal arriving back on Earth, you win! Otherwise... better luck next time.</p>
+            <p class="distanceText">Tip #1: your signal will move at the speed of light!</p>
+            <p class="distanceText" id="tip2">Tip #2: things are far away.</p>
+            <br/>
+            <div id="gameTimer">    
+                <h2 id="clock">0.000 s</h2>
+                <button id="ping">Send!</button>
+                <p id="resultText"></p>
+            </div>
+            <div id="scoreboard">
+                <ul id="scores">
+                </ul>
+            </div>
         </div>
     </body>
 </html>

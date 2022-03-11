@@ -1,10 +1,79 @@
+// Modules
+const nameDiv = document.querySelector("#name")
+const missionSelectorDiv = document.querySelector("#missionSelector")
+const gameDiv = document.querySelector("#game")
+
+
+// Name
+const nameForm = document.querySelector("#nameForm")
+const nameInput = document.querySelector("#nameInput")
+const missionHeader = document.querySelector("#missionHeader")
+
+nameForm.addEventListener("submit", submitName)
+
+function submitName(e) {
+    e.preventDefault()
+    missionHeader.innerText = `Welcome, ${nameInput.value}! Who do you want to talk to?`
+
+    // Hides this module and unhides next module
+    nameDiv.removeAttribute("class","active")
+    nameDiv.setAttribute("class", "inactive")
+    missionSelectorDiv.removeAttribute("class","inactive")
+    missionSelectorDiv.setAttribute("class", "active")
+}
+
+// Mission Selector
+const missionForm = document.querySelector("#missionForm")
+const missionInput = document.querySelector("#missionInput")
+const goalHeader = document.querySelector("#goalHeader")
+const tip2 = document.querySelector("#tip2")
+
+const missionSelectorObj = {
+    "iss": "To talk to an astronaut, you'll need a signal to get to the International Space Station and back.",
+    "geo": "To talk to a satellite, you'll need a signal to get to geostationary orbit and back.",
+    "moon": "To talk to the Moon Lander, you'll need a signal to get to the moon and back.",
+    "mars": "To talk to a Martian, you'll need a signal to get to Mars and back."
+}
+
+const tipSelectorObj = {
+    "iss": "Tip #2: the International Space Station orbits 248 miles (400 kilometers) above Earth.",
+    "geo": "Tip #2: geostationary orbit is 22,236 miles (35,786 kilometers) away from Earth.",
+    "moon": "Tip #2: the Moon is 238,855 miles (384,400 kilometers) away from Earth.",
+    "mars": "Tip #2: Mars is 33.9 million miles (54.6 million kilometers) away from Earth."
+}
+
+missionForm.addEventListener("submit", submitMission)
+
+let goal = 0.000
+
+function submitMission(e) {
+    e.preventDefault()
+    goalHeader.innerText = missionSelectorObj[missionInput.value]
+    tip2.innerText = tipSelectorObj[missionInput.value]
+
+    // Hides this module and unhides next module
+    missionSelectorDiv.removeAttribute("class","active")
+    missionSelectorDiv.setAttribute("class", "inactive")
+    gameDiv.removeAttribute("class","inactive")
+    gameDiv.setAttribute("class", "active")
+
+    return goal = missionGoalObj[missionInput.value]
+
+}
+// Game
 const clock = document.querySelector("#clock")
 const ping = document.querySelector("#ping")
 const scores = document.querySelector("#scores")
-const helperText = document.querySelector("#helperText")
+const resultText = document.querySelector("#resultText")
+
+const missionGoalObj = {
+    "iss": 0.003,
+    "geo": 0.239,
+    "moon": 2.565,
+    "mars": 1935.985,
+}
 
 let number = 0
-let goal = 0.239
 
 ping.addEventListener("click", startTimer)
 
@@ -12,7 +81,7 @@ function startTimer() {
     ping.removeEventListener("click", startTimer)
     ping.addEventListener("click", stopTimer) 
 
-    ping.innerText = "Received!"
+    ping.innerText = "Receive!"
     tick = setInterval(addMs,1)
 }
 
@@ -27,5 +96,10 @@ function stopTimer() {
     clearInterval(tick);
     ping.remove()
     let leftover = Math.floor(Math.abs(goal - number)*1000)
-    helperText.innerText = `Only ${leftover} milliseconds off!`
+
+    // Result protip
+    resultText.innerText = `Only ${leftover} milliseconds off!`
 }
+
+// another try, same mission
+// another try, different mission

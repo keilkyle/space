@@ -1,0 +1,8 @@
+.active {
+    border: 1px red;
+    display: block;
+}
+
+.inactive {
+    display: none;
+}
