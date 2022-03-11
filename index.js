@@ -7,6 +7,20 @@ const gameDiv = document.querySelector("#game")
 const playAgainDiv = document.querySelector("#playAgain")
 const hallOfFameSubmission = document.querySelector("#hallOfFameSubmission")
 
+// Grab hall of famers
+
+fetch("http://localhost:3000/records")
+.then(resp => resp.json())
+.then(data => {
+    const hall = document.querySelector("#hall")
+    for (i in data) {
+        let li = document.createElement("li")
+        li.innerText = `${data[i].name}: ${data[i].time}ms, ${data[i].mission} mission`
+        hall.appendChild(li)
+    }
+}
+)
+
 // API to get the names of the ISS people
 
 fetch("http://api.open-notify.org/astros.json")
@@ -149,11 +163,25 @@ addHall.addEventListener("click", addToHall)
 
 function addToHall() {
     let li = document.createElement("li")
-    li.innerText = `${nameInput.value}: ${Math.floor(Math.abs(goal - number)*1000)}ms, ${missionInput.value} mission.`
+    li.innerText = `${nameInput.value}: ${Math.floor(Math.abs(goal - number)*1000)}ms, ${missionInput.value} mission`
 
     hall.appendChild(li)
     addHall.removeEventListener("click", addToHall)
     addHall.innerText = "Submitted!"
+
+    fetch("http://localhost:3000/records", {
+        method: "POST", 
+        headers: {
+            "content-type": "application/json",
+            "Accept": "application/json"
+        },
+        body: JSON.stringify({
+            "name": `${nameInput.value}`,
+            "mission": `${missionInput.value}`,
+            "time": `${Math.floor(Math.abs(goal - number)*1000)}`
+        })
+    })
+    .then(resp => resp.json())
 }
 
 // Play Again

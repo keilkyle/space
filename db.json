@@ -1,10 +1,22 @@
 {
-    "records": [
-      {
-        "id": 1,
-        "name": "Christian",
-        "mission": "geo",
-        "time": 15
-      }
-    ]
-  }
+  "records": [
+    {
+      "id": 1,
+      "name": "Christian",
+      "mission": "geo",
+      "time": 15
+    },
+    {
+      "name": "Maryli Cheng",
+      "mission": "geo",
+      "time": "20",
+      "id": 2
+    },
+    {
+      "name": "Taco Tuesday",
+      "mission": "iss",
+      "time": "25",
+      "id": 3
+    }
+  ]
+}
