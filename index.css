@@ -6,3 +6,15 @@
 .inactive {
     display: none;
 }
+
+.left {
+    float: left;
+    width: 60vw;
+    padding-right: 10vw;
+}
+
+.right {
+    float:left;
+    width: 15vw;
+    padding-left: 5vw;
+}

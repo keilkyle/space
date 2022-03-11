@@ -1,8 +1,11 @@
+// next up: do the push to the json server to store the HOF results
+
 // Modules
 const nameDiv = document.querySelector("#name")
 const missionSelectorDiv = document.querySelector("#missionSelector")
 const gameDiv = document.querySelector("#game")
 const playAgainDiv = document.querySelector("#playAgain")
+const hallOfFameSubmission = document.querySelector("#hallOfFameSubmission")
 
 // API to get the names of the ISS people
 
@@ -15,7 +18,7 @@ fetch("http://api.open-notify.org/astros.json")
             issNames.push(data.people[astronaut].name)
         }
     }
-    
+
     let issString = issNames.join(", ")
 
     return missionSelectorObj = {
@@ -117,20 +120,40 @@ function stopTimer() {
     playAgainDiv.removeAttribute("class","inactive")
     playAgainDiv.setAttribute("class", "active")
 
-    // Result protip
+    // Result protip and HOF Submission
+
     if (leftover <= 25) {
         if (goal >= number) {
-            return resultText.innerText = `You win! You clicked "receive" only ${leftover} milliseconds ahead of the correct time.`
+            resultText.innerText = `You win! You clicked "receive" only ${leftover} milliseconds ahead of the correct time.`
+            hallOfFameSubmission.removeAttribute("class", "inactive")
+            hallOfFameSubmission.setAttribute("class", "active")
         } else {
-            return resultText.innerText = `You win! You clicked "receive" only ${leftover} milliseconds behind the correct time.`
+            resultText.innerText = `You win! You clicked "receive" only ${leftover} milliseconds behind the correct time.`
+            hallOfFameSubmission.removeAttribute("class", "inactive")
+            hallOfFameSubmission.setAttribute("class", "active")
         }
     } else { 
         if (goal > number) {
-            return resultText.innerText = `Oops, too fast. You clicked "receive" ${leftover} milliseconds early.`
+            resultText.innerText = `Oops, too fast. You clicked "receive" ${leftover} milliseconds early.`
         } else {
-            return resultText.innerText = `Oops, too slow. You clicked "receive" ${leftover} milliseconds late.`
+            resultText.innerText = `Oops, too slow. You clicked "receive" ${leftover} milliseconds late.`
         }
     }
+}
+
+// HOF
+const hall = document.querySelector("#hall")
+const addHall = document.querySelector("#addHall")
+
+addHall.addEventListener("click", addToHall)
+
+function addToHall() {
+    let li = document.createElement("li")
+    li.innerText = `${nameInput.value}: ${Math.floor(Math.abs(goal - number)*1000)}ms, ${missionInput.value} mission.`
+
+    hall.appendChild(li)
+    addHall.removeEventListener("click", addToHall)
+    addHall.innerText = "Submitted!"
 }
 
 // Play Again
@@ -151,6 +174,11 @@ function retrySameMission (e) {
 
     playAgainDiv.removeAttribute("class","active")
     playAgainDiv.setAttribute("class", "inactive")
+
+    hallOfFameSubmission.removeAttribute("class", "active")
+    hallOfFameSubmission.setAttribute("class", "inactive")
+    addHall.addEventListener("click", addToHall)
+    addHall.innerText = "Yes"
 
     ping.removeEventListener("click", stopTimer)
     ping.addEventListener("click", startTimer)
