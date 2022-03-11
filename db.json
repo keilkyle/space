@@ -8,15 +8,9 @@
     },
     {
       "name": "Maryli Cheng",
-      "mission": "geo",
-      "time": "20",
-      "id": 2
-    },
-    {
-      "name": "Taco Tuesday",
       "mission": "iss",
-      "time": "25",
-      "id": 3
+      "time": 20,
+      "id": 2
     }
   ]
 }

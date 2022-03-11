@@ -178,7 +178,7 @@ function addToHall() {
         body: JSON.stringify({
             "name": `${nameInput.value}`,
             "mission": `${missionInput.value}`,
-            "time": `${Math.floor(Math.abs(goal - number)*1000)}`
+            "time": Math.floor(Math.abs(goal - number)*1000)
         })
     })
     .then(resp => resp.json())
