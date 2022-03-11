@@ -2,7 +2,29 @@
 const nameDiv = document.querySelector("#name")
 const missionSelectorDiv = document.querySelector("#missionSelector")
 const gameDiv = document.querySelector("#game")
+const playAgainDiv = document.querySelector("#playAgain")
 
+// API to get the names of the ISS people
+
+fetch("http://api.open-notify.org/astros.json")
+.then(resp => resp.json())
+.then(data => {
+    let issNames = []
+    for (astronaut in data.people) {
+        if (data.people[astronaut].craft === "ISS") {
+            issNames.push(data.people[astronaut].name)
+        }
+    }
+    
+    let issString = issNames.join(", ")
+
+    return missionSelectorObj = {
+        "iss": `To talk to an astronaut, you'll need a signal to get to the International Space Station and back. Once it gets there, the following people will hear it: ${issString}`,
+        "geo": "To talk to a satellite, you'll need a signal to get to geostationary orbit and back.",
+        "moon": "To talk to the Moon Lander, you'll need a signal to get to the moon and back.",
+        "mars": "To talk to a Martian, you'll need a signal to get to Mars and back."
+    }
+})
 
 // Name
 const nameForm = document.querySelector("#nameForm")
@@ -27,13 +49,6 @@ const missionForm = document.querySelector("#missionForm")
 const missionInput = document.querySelector("#missionInput")
 const goalHeader = document.querySelector("#goalHeader")
 const tip2 = document.querySelector("#tip2")
-
-const missionSelectorObj = {
-    "iss": "To talk to an astronaut, you'll need a signal to get to the International Space Station and back.",
-    "geo": "To talk to a satellite, you'll need a signal to get to geostationary orbit and back.",
-    "moon": "To talk to the Moon Lander, you'll need a signal to get to the moon and back.",
-    "mars": "To talk to a Martian, you'll need a signal to get to Mars and back."
-}
 
 const tipSelectorObj = {
     "iss": "Tip #2: the International Space Station orbits 248 miles (400 kilometers) above Earth.",
@@ -88,18 +103,79 @@ function startTimer() {
 function addMs() {
     number += 0.001;
     display = number.toString().substring(0,5)
-    clock.innerText = `${display} ms`;
+    clock.innerText = `${display} s`;
     console.log("one tick")
 }
 
 function stopTimer() {
     clearInterval(tick);
-    ping.remove()
+    ping.setAttribute("class", "inactive")
     let leftover = Math.floor(Math.abs(goal - number)*1000)
 
+    // Show and initiate new mission section
+
+    playAgainDiv.removeAttribute("class","inactive")
+    playAgainDiv.setAttribute("class", "active")
+
     // Result protip
-    resultText.innerText = `Only ${leftover} milliseconds off!`
+    if (leftover <= 25) {
+        if (goal >= number) {
+            return resultText.innerText = `You win! You clicked "receive" only ${leftover} milliseconds ahead of the correct time.`
+        } else {
+            return resultText.innerText = `You win! You clicked "receive" only ${leftover} milliseconds behind the correct time.`
+        }
+    } else { 
+        if (goal > number) {
+            return resultText.innerText = `Oops, too fast. You clicked "receive" ${leftover} milliseconds early.`
+        } else {
+            return resultText.innerText = `Oops, too slow. You clicked "receive" ${leftover} milliseconds late.`
+        }
+    }
 }
 
-// another try, same mission
-// another try, different mission
+// Play Again
+
+const sameMission = document.querySelector("#sameMission")
+const newMission = document.querySelector("#newMission")
+
+sameMission.addEventListener("click", retrySameMission)
+newMission.addEventListener("click", tryNewMission)
+
+function retrySameMission (e) {
+    e.preventDefault()
+
+    clock.innerText = `0.000 s`;
+    resultText.innerText = "" 
+    ping.removeAttribute("class", "inactive")
+    ping.innerText = "Send!"
+
+    playAgainDiv.removeAttribute("class","active")
+    playAgainDiv.setAttribute("class", "inactive")
+
+    ping.removeEventListener("click", stopTimer)
+    ping.addEventListener("click", startTimer)
+    return number = 0
+}
+
+function tryNewMission (e) {
+    clock.innerText = `0.000 s`;
+    resultText.innerText = "" 
+    ping.removeAttribute("class", "inactive")
+    ping.innerText = "Send!"
+
+    playAgainDiv.removeAttribute("class","active")
+    playAgainDiv.setAttribute("class", "inactive")
+
+    ping.removeEventListener("click", stopTimer)
+    ping.addEventListener("click", startTimer)
+    
+    missionSelectorDiv.removeAttribute("class","inactive")
+    missionSelectorDiv.setAttribute("class", "active")
+
+    gameDiv.removeAttribute("class","active")
+    gameDiv.setAttribute("class", "inactive")
+
+    missionHeader.innerText = `Welcome back, ${nameInput.value}! Who else do you want to talk to?`
+
+    return number = 0
+}
