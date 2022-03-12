@@ -40,6 +40,10 @@ And in any case, I give the player a chance to play again, either by clicking th
 # USING THE APP
 Hopefully it's pretty self-explanatory. If anything, I probably wrote too much copy.
 
+The only potentially tricky part is spinning up the server. I just used json-server, and the following command spins everything up: 
+
+```json-server --watch db.json```
+
 # FUTURE ADDITIONS
 I have plenty of ideas:
 - it would be cool to dynamically visualize the signal going to and from the target; could I have a line that auto-draws when the user clicks "submit" that goes to the object in space and back?
