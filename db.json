@@ -2,15 +2,21 @@
   "records": [
     {
       "id": 1,
-      "name": "Christian",
+      "name": "Hello",
       "mission": "geo",
       "time": 15
     },
     {
-      "name": "Maryli Cheng",
+      "name": "Flatiron School!",
       "mission": "iss",
       "time": 20,
       "id": 2
+    },
+    {
+      "name": "Barack Obama",
+      "mission": "geo",
+      "time": 1,
+      "id": 3
     }
   ]
 }
