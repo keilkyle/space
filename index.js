@@ -1,5 +1,3 @@
-// next up: do the push to the json server to store the HOF results
-
 // Modules
 const nameDiv = document.querySelector("#name")
 const missionSelectorDiv = document.querySelector("#missionSelector")
@@ -8,7 +6,6 @@ const playAgainDiv = document.querySelector("#playAgain")
 const hallOfFameSubmission = document.querySelector("#hallOfFameSubmission")
 
 // Grab hall of famers
-
 fetch("http://localhost:3000/records")
 .then(resp => resp.json())
 .then(data => {
@@ -21,7 +18,7 @@ fetch("http://localhost:3000/records")
 }
 )
 
-// API to get the names of the ISS people
+// API call to get the names of the ISS people
 
 fetch("http://api.open-notify.org/astros.json")
 .then(resp => resp.json())
@@ -46,12 +43,12 @@ fetch("http://api.open-notify.org/astros.json")
 // Name
 const nameForm = document.querySelector("#nameForm")
 const nameInput = document.querySelector("#nameInput")
-const missionHeader = document.querySelector("#missionHeader")
 
 nameForm.addEventListener("submit", submitName)
 
 function submitName(e) {
     e.preventDefault()
+    const missionHeader = document.querySelector("#missionHeader")
     missionHeader.innerText = `Welcome, ${nameInput.value}! Who do you want to talk to?`
 
     // Hides this module and unhides next module
